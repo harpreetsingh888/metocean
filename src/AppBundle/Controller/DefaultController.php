@@ -3,10 +3,8 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Classes\UsersClass;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
 
 class DefaultController extends Controller
@@ -24,7 +22,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * Route to get all the users for datatable
+     * Get the data for first graph
      * @Route("/getDataForFirstGraph")
      * @Method("GET")
      * @param Request $request
@@ -32,16 +30,21 @@ class DefaultController extends Controller
      */
     public function getDataForFirstGraphAction(Request $request)
     {
+        //only metre columns
         $columns = array('time','lev','hs','hx','hs_sw1','hs_sw8','hs_sea8','hs_sea','hs_ig','hs_fig','ss');
         $get['columns'] = &$columns;
 
+        //get data
         $rResult = $this->getDoctrine()->getRepository('AppBundle:Ocean')->ajaxTable($get);
+
+        //filter time
         foreach ($rResult as $key=>$result) {
             if (gettype($result['time']) === "object") {
                 $rResult[$key]['time'] = $result['time']->format('d-M-Y');
             }
         }
 
+        //get an average for each field per day
         $usersClass = new UsersClass();
         $averageData = $usersClass->getAveragePerDay($rResult);
 
@@ -57,7 +60,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * Route to get data for first bar graph
+     * Route to get data for second graph
      * @Route("/getDataForSecondGraph")
      * @Method("GET")
      * @param Request $request
@@ -65,15 +68,11 @@ class DefaultController extends Controller
      */
     public function getDataForSecondGraphAction(Request $request)
     {
-        $params = $request->query->all();
+        //only time columns
         $columns = array('time','tp','tm01','tm02','tp_sw1','tp_sw8','tp_sea8','tp_sea','tm_sea');
         $get['columns'] = &$columns;
-        $get['sEcho'] = 0;
 
-        if ( isset( $params['start'] ) && isset($params['length']) && $params['length'] !== '-1' ){
-            $get['iDisplayStart'] = $params['start'];
-            $get['iDisplayLength'] = $params['length'];
-        }
+        //get data
         $rResult = $this->getDoctrine()->getRepository('AppBundle:Ocean')->ajaxTable($get);
         foreach ($rResult as $key=>$result) {
             if (gettype($result['time']) === "object") {
@@ -96,7 +95,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * Route to get data for first bar graph
+     * Route to get data for third graph
      * @Route("/getDataForThirdGraph")
      * @Method("GET")
      * @param Request $request
@@ -104,15 +103,11 @@ class DefaultController extends Controller
      */
     public function getDataForThirdGraphAction(Request $request)
     {
-        $params = $request->query->all();
+        //get knots columns
         $columns = array('time','wsp', 'gst', 'wd', 'wsp100', 'wsp50', 'wsp80', 'csp0');
         $get['columns'] = &$columns;
-        $get['sEcho'] = 0;
 
-        if ( isset( $params['start'] ) && isset($params['length']) && $params['length'] !== '-1' ){
-            $get['iDisplayStart'] = $params['start'];
-            $get['iDisplayLength'] = $params['length'];
-        }
+        //get data
         $rResult = $this->getDoctrine()->getRepository('AppBundle:Ocean')->ajaxTable($get);
         foreach ($rResult as $key=>$result) {
             if (gettype($result['time']) === "object") {
@@ -135,7 +130,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * Route to get data for first bar graph
+     * Route to get data for fourth bar graph
      * @Route("/getDataForFourthGraph")
      * @Method("GET")
      * @param Request $request
@@ -143,15 +138,11 @@ class DefaultController extends Controller
      */
     public function getDataForFourthGraphAction(Request $request)
     {
-        $params = $request->query->all();
-        $columns = array('time as date','tmp');
+        //only celcius columns
+        $columns = array('time as date','tmp', 'sst');
         $get['columns'] = &$columns;
-        $get['sEcho'] = 0;
 
-        if ( isset( $params['start'] ) && isset($params['length']) && $params['length'] !== '-1' ){
-            $get['iDisplayStart'] = $params['start'];
-            $get['iDisplayLength'] = $params['length'];
-        }
+        //get data
         $rResult = $this->getDoctrine()->getRepository('AppBundle:Ocean')->ajaxTable($get);
         foreach ($rResult as $key=>$result) {
             if (gettype($result['date']) === "object") {
@@ -162,5 +153,4 @@ class DefaultController extends Controller
         $response = new Response(json_encode($rResult));
         return $response;
     }
-
 }

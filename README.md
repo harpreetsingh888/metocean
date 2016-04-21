@@ -32,6 +32,7 @@ MetOcean
 * Import excel
     1. Use Phpmyadmin or MySQL Workbench to import metocean.txt using following command
        LOAD DATA INFILE '/tmp/metocean.txt' INTO TABLE data;
+* Change DB name and password in app/config/parameters.yml
 * Build assets
     1. Build the assets(css and js) using
        sudo rm -rf app/cache/* && app/console assetic:dump
@@ -44,5 +45,7 @@ MetOcean
 * My thoughts of refactoring are as follows:
     1. In renderGraphs.js, methods drawFirstGraph, drawSecondGraph and so on can be combined into a single method which makes the xhr request(with extra parameter) for each graph.
     2. In DefaultController.php, similarly instead of getDataForFirstGraphAction, getDataForSecondGraphAction and so on there can be a single method getDataForGraphsAction which will listen to the route "/getDataForGraphs/{$type}". $type variable can be first, second or third so relevant data can be returned.
+    3. Use Bower to manage front end project dependencies.
 
-I am quite happy to get familiar with a powerful library D3JS and its plugins and hope to use it the future.
+
+I wasn't able to implement fully the way I thought about this project due to lack of time while working full time but I am quite happy to get familiar with a powerful library D3JS and its plugins and hope to use it the future.
