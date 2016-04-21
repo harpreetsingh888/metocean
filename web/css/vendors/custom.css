@@ -14,5 +14,13 @@
 }
 
 .x.axis path {
-    display: none;
+    display: block;
+}
+
+#firstGraph, #secondGraph, #thirdGraph {
+    float: left;
+}
+
+#legendsFirstGraph, #legendsSecondGraph {
+    padding: 10px 15px;
 }
