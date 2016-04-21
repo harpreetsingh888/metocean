@@ -1,4 +1,4 @@
-catchproject
+MetOcean
 ============
 
 Copy the project into you var/www/html/ directory and change your current directory to /var/www/html/catchproject
@@ -6,14 +6,15 @@ Copy the project into you var/www/html/ directory and change your current direct
      * Update packages via Composer
         1. Execute composer install
 
-     * Database name is catchproject.
-         1. Execute php app/console doctrine:database:create command to generate database named catchproject
+     * Database name is metocean.
+         1. Execute php app/console doctrine:database:create command to generate database named metocean
 
      * Generate table
          1. Execute php app/console doctrine:schema:update --force
 
      * Import excel
-         1. Use Phpmyadmin or MySQL Workbench to import customers.csv
+         1. Use Phpmyadmin or MySQL Workbench to import metocean.txt using following command
+            LOAD DATA INFILE '/tmp/metocean.txt' INTO TABLE data;
 
      * Build assets
          1. Build the assets(css and js) using
