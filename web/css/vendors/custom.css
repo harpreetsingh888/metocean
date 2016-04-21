@@ -17,7 +17,7 @@
     display: block;
 }
 
-#firstGraph, #secondGraph, #thirdGraph {
+#firstRow, #firstGraph, #secondGraph, #thirdGraph {
     float: left;
 }
 
