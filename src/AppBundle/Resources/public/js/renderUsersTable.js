@@ -306,8 +306,8 @@ $(function(){
         drawFourthGraph: function()
         {
             var margin = {top: 20, right: 80, bottom: 30, left: 50},
-                width = 400 - margin.left - margin.right,
-                height = 250 - margin.top - margin.bottom;
+                width = 500 - margin.left - margin.right,
+                height = 300 - margin.top - margin.bottom;
 
             var parseDate = d3.time.format("%d%m%Y").parse;
 
@@ -358,7 +358,7 @@ $(function(){
                 x.domain(d3.extent(data, function(d) { return d.date; })).nice();
 
                 y.domain([
-                    d3.min(temperatureType, function(c) { return d3.min(c.values, function(v) { return v.temperature; }); }),
+                    0,
                     d3.max(temperatureType, function(c) { return d3.max(c.values, function(v) { return v.temperature; }); })
                 ]).nice();
 
