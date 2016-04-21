@@ -1,0 +1,3 @@
+AppBundle_users:
+    pattern:  /getAllUsers
+    defaults: { _controller: AppBundle:Default:getAllUsers, _format: json }
